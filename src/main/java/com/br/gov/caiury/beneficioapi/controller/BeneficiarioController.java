@@ -1,7 +1,16 @@
 package com.br.gov.caiury.beneficioapi.controller;
 
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.stream.Collectors;
 
+import javax.print.Doc;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.gov.caiury.beneficioapi.domain.model.Beneficiario;
+import com.br.gov.caiury.beneficioapi.domain.model.Documento;
 import com.br.gov.caiury.beneficioapi.repository.BeneficiarioRepository;
 import com.br.gov.caiury.beneficioapi.service.BeneficiarioService;
 
@@ -45,13 +55,18 @@ public class BeneficiarioController {
 	@PutMapping("{id}")
 	public ResponseEntity<Beneficiario> atualizarBeneficiario(@PathVariable Long id,
 			@RequestBody Beneficiario beneficiario) {
-		if (!beneficiarioRepository.existsById(id)) {
+		try {
+			Beneficiario beneficiarioAtual = beneficiarioRepository.findById(id).orElse(null);
+			if (beneficiarioAtual != null) {
+				BeanUtils.copyProperties(beneficiario, beneficiarioAtual, "id");
+			}
+
+			beneficiarioAtual = beneficiarioervice.cadastrar(beneficiarioAtual);
+
+			return ResponseEntity.ok(beneficiarioAtual);
+		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
-		beneficiario.setId(id);
-		Beneficiario beneficiarioAtualizado = beneficiarioervice.cadastrar(beneficiario);
-
-		return ResponseEntity.ok(beneficiarioAtualizado);
 	}
 
 	@DeleteMapping("{id}")
