@@ -3,6 +3,7 @@ package com.br.gov.caiury.beneficioapi.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
 import com.br.gov.caiury.beneficioapi.domain.model.Beneficiario;
@@ -18,10 +19,6 @@ public class BeneficiarioService {
 
 	public List<Beneficiario> listarTodos() {
 		return beneficiarioRepository.findAll();
-	}
-
-	public Optional<Beneficiario> listarPorId(Long id) {
-		return beneficiarioRepository.findById(id);
 	}
 
 	public Beneficiario cadastrar(Beneficiario beneficiarioRequest) {
