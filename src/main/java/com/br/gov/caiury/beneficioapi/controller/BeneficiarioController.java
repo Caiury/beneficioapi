@@ -1,14 +1,7 @@
 package com.br.gov.caiury.beneficioapi.controller;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.stream.Collectors;
-
-import javax.print.Doc;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -23,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.gov.caiury.beneficioapi.domain.model.Beneficiario;
-import com.br.gov.caiury.beneficioapi.domain.model.Documento;
 import com.br.gov.caiury.beneficioapi.repository.BeneficiarioRepository;
 import com.br.gov.caiury.beneficioapi.service.BeneficiarioService;
 
@@ -60,7 +52,6 @@ public class BeneficiarioController {
 			if (beneficiarioAtual != null) {
 				BeanUtils.copyProperties(beneficiario, beneficiarioAtual, "id");
 			}
-
 			beneficiarioAtual = beneficiarioervice.cadastrar(beneficiarioAtual);
 
 			return ResponseEntity.ok(beneficiarioAtual);
